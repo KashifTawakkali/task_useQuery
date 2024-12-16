@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import fetchData from './useQuery';
 
 const MyComponent = () => {
   const [data, setData] = useState(null);
@@ -9,19 +10,17 @@ const MyComponent = () => {
     const fetchDataFromAPI = async () => {
       try {
         setLoading(true);
-
         const result = await fetchData({
           method: 'GET',
           path: 'https://bayut-org-testing.mini91.com/',
-          // query: { key: 'value' },
+          query: {},
           options: {
             headers: {
-              Authorization: ``,
+              Authorization: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NWZkNTVkYTY4NGMzNjZiYmIwZThjOCIsImlhdCI6MTczNDMzMzgzMCwiZXhwIjoxNzM0NDIwMjMwfQ.AXAP8-73ZeE3WE0dRxyQXMsc1H46COdv1tBxMGloF8c`,
               'Content-Type': 'application/json',
             },
           },
         });
-
         setData(result);
       } catch (err) {
         setError(err.message);
@@ -31,15 +30,10 @@ const MyComponent = () => {
     };
 
     fetchDataFromAPI();
-  }, []); 
+  }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div>
